@@ -54,7 +54,12 @@ function nextFreeRingSlot(cards) {
   return RING_SLOTS.find((s) => !used.has(s)) ?? null
 }
 
-const CATEGORIES_INITIALES = ['Hoodie', 'Tee', 'Belt', 'Necklace']
+// Catégories affichées au premier chargement (avant que l'utilisateur
+// ajoute/retire). On choisit celles dont au moins une variante GLB est
+// déjà déployée dans public/models/ pour que la démo Vercel soit immédiate-
+// ment visuelle. À étendre quand de nouveaux GLB arrivent (ex. rebasculer
+// sur ['Hoodie', 'Tee', 'Belt', 'Necklace'] une fois tous déployés).
+const CATEGORIES_INITIALES = ['Cap', 'Glasses', 'Bracelet', 'Ring']
 
 /** Met _cardSeq à la valeur max trouvée dans une liste de cartes, pour
  *  que les prochains nextCardId() ne créent pas de doublons. */
