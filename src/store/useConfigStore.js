@@ -30,7 +30,7 @@ const DEFAULT_ITEM_SCALES = {
 
 export const useConfigStore = create(
   persist(
-    (set) => ({
+    (set, get) => ({
       characterScale: DEFAULT_CHARACTER_SCALE,
       characterPosition: [...DEFAULT_CHARACTER_POSITION],
       slotOverrides: buildDefaultSlotConfig(),
