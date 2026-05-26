@@ -1,0 +1,72 @@
+/* =============================================================================
+ *  Variables globales — palette mauve/noir + typographies
+ * ============================================================================ */
+
+/* Digital-7 — afficheur 7 segments (licence freeware home use only —
+   acheter pour la prod). Le binaire doit être présent à /public/fonts/
+   digital-7-mono.ttf. Si absent, le fallback monospace prend le relais. */
+@font-face {
+  font-family: 'Digital-7';
+  src: url('/fonts/digital-7-mono.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ---------- Palette : NOIR quasi pur + traits VIOLET marqués ---------- */
+  --bg-deep:        #030106;
+  --bg-zone-3d:     #a8a4e8;  /* zone 3D bleu-mauve clair (style hologramme) */
+  --bg-zone-pan:    #06030a;
+  --bg-floor-3d:    #5a3082;
+
+  --surface-1:      rgba(255, 255, 255, 0.025);
+  --surface-2:      rgba(194, 82, 255, 0.22);
+  --surface-hover:  rgba(194, 82, 255, 0.08);
+  --surface-glass:  rgba(0, 0, 0, 0.7);
+  --surface-input:  rgba(255, 255, 255, 0.02);
+
+  --accent:         #c252ff;
+  --accent-strong:  #9b3eea;
+  --accent-soft:    rgba(194, 82, 255, 0.25);
+  --accent-glow:    rgba(194, 82, 255, 0.35);
+
+  --text:           #f5eaff;
+  --text-muted:     rgba(245, 234, 255, 0.6);
+  --text-soft:      rgba(214, 184, 255, 0.7);
+  --text-dim:       rgba(214, 184, 255, 0.28);
+
+  --danger:         #ff8a8a;
+
+  /* ---------- Typographie ---------- */
+  /* Digital-7 PARTOUT, fallback Inter / Space Grotesk pour glyphes manquants. */
+  --font-body:      'Digital-7', 'Inter', system-ui, sans-serif;
+  --font-display:   'Digital-7', 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-digital:   'Digital-7', 'Menlo', 'Consolas', monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}

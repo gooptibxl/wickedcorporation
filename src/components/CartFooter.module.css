@@ -1,0 +1,165 @@
+/* =============================================================================
+ *  CartFooter — bandeau compact "Total + Buy Everything".
+ *  Réduit en hauteur pour laisser plus de cartes visibles dans la scroll-area
+ *  au-dessus (target : ~2× plus court qu'avant).
+ * ============================================================================ */
+
+.footer {
+  position: relative;
+  background: var(--surface-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 0.55rem 0.85rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  /* Barre de statut HUD au bord supérieur (3 segments mauves) */
+  background-image: linear-gradient(
+    to right,
+    transparent 0,
+    transparent 8px,
+    var(--accent) 8px,
+    var(--accent) 28px,
+    transparent 28px,
+    transparent calc(50% - 12px),
+    var(--accent) calc(50% - 12px),
+    var(--accent) calc(50% + 12px),
+    transparent calc(50% + 12px),
+    transparent calc(100% - 28px),
+    var(--accent) calc(100% - 28px),
+    var(--accent) calc(100% - 8px),
+    transparent calc(100% - 8px)
+  );
+  background-size: 100% 1px;
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-color: var(--surface-glass);
+}
+
+.footer::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(to bottom, transparent, rgba(194, 82, 255, 0.05));
+  pointer-events: none;
+}
+
+/* Ligne unique : total à gauche, compte à droite, alignés sur la baseline. */
+.summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.summaryLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+}
+
+.totalLabel {
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  opacity: 0.75;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.totalLabel::before {
+  content: '';
+  width: 8px;
+  height: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 4px rgba(194, 82, 255, 0.7);
+}
+
+/* Total LCD — plus petit, plus discret */
+.total {
+  font-family: var(--font-digital);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  padding: 0.25rem 0.55rem;
+  background: rgba(194, 82, 255, 0.08);
+  border: 1px solid var(--accent-soft);
+  border-radius: 2px;
+  box-shadow:
+    inset 0 0 12px rgba(194, 82, 255, 0.18),
+    0 0 8px rgba(194, 82, 255, 0.12);
+  text-shadow: 0 0 6px rgba(194, 82, 255, 0.45);
+}
+
+.count {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+/* CTA — plus court qu'avant, paddings réduits */
+.btn {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 3px;
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #fff;
+  padding: 0.55rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  box-shadow:
+    0 4px 14px var(--accent-soft),
+    inset 0 0 18px rgba(255, 255, 255, 0.08);
+  transition: transform 120ms ease, box-shadow 200ms ease, filter 120ms ease;
+}
+.btn:hover:not(:disabled),
+.btn:focus-visible:not(:disabled) {
+  filter: brightness(1.12);
+  box-shadow:
+    0 6px 20px var(--accent-glow),
+    inset 0 0 22px rgba(255, 255, 255, 0.12);
+  outline: none;
+}
+.btn:active:not(:disabled) { transform: scale(0.985); }
+.btn:disabled {
+  cursor: not-allowed;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: rgba(245, 234, 255, 0.35);
+  box-shadow: none;
+  filter: none;
+}
+
+.arrow {
+  font-size: 1em;
+  line-height: 1;
+}

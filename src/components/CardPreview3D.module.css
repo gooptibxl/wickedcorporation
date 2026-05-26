@@ -1,0 +1,14 @@
+/* Le Canvas remplit le bloc .preview parent. Fond transparent → la couleur
+   de la variante (var --preview-color sur .preview) reste visible derrière. */
+.canvas {
+  position: absolute !important;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  /* Le canvas WebGL bloque les clics : on désactive le pointer-events ici
+     pour que les flèches de navigation prev/next (qui sont au-dessus)
+     restent cliquables sur tout le bloc preview. */
+  pointer-events: none;
+  z-index: 1;
+}

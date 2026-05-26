@@ -1,0 +1,114 @@
+/* =============================================================================
+ *  CategoryPicker — un seul bloc "Ajouter" avec toutes les chips disponibles.
+ *  Span sur les 2 colonnes de la grille, en bas du panneau.
+ * ============================================================================ */
+
+.picker {
+  grid-column: 1 / -1;
+  position: relative;
+  border: 1px dashed var(--text-dim);
+  border-radius: 4px;
+  padding: 0.85rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+/* Corner brackets pour la cohérence avec les ProductCard */
+.picker::before,
+.picker::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: var(--text-dim);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+  transition: border-color 160ms ease;
+}
+.picker::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.picker::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.tick {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--accent-soft), transparent);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.7rem;
+  background: transparent;
+  border: 1px solid var(--surface-2);
+  border-radius: 2px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease,
+    border-color 140ms ease, transform 120ms ease, box-shadow 160ms ease;
+}
+
+.chip:hover,
+.chip:focus-visible {
+  background: var(--surface-hover);
+  color: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 14px rgba(194, 82, 255, 0.18);
+  outline: none;
+}
+
+.chip:active {
+  transform: scale(0.97);
+}
+
+.chipLabel {
+  /* défaut, rien de spécial */
+}
+
+.chipPlus {
+  font-size: 0.95em;
+  line-height: 1;
+  opacity: 0.85;
+  text-shadow: 0 0 4px rgba(194, 82, 255, 0.4);
+}
