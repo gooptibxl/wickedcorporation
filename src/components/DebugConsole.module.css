@@ -295,6 +295,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.adminTools {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
 }
 .resetBtn {
   background: transparent;

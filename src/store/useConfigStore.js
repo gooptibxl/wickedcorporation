@@ -107,6 +107,59 @@ export const useConfigStore = create(
         }))
       },
 
+      /**
+       * Sérialise les réglages Admin en JSON (string) pour export.
+       * Inclut characterScale, characterPosition, slotOverrides, itemScales.
+       * N'inclut PAS les cards du panier (qui sont dans l'autre store).
+       */
+      exportConfig() {
+        const s = get()
+        return JSON.stringify(
+          {
+            characterScale: s.characterScale,
+            characterPosition: s.characterPosition,
+            slotOverrides: s.slotOverrides,
+            itemScales: s.itemScales,
+          },
+          null,
+          2,
+        )
+      },
+
+      /**
+       * Applique une config sérialisée. Accepte un objet ou une string JSON.
+       * Merge proprement avec l'état actuel (les slots non fournis gardent
+       * leur valeur, les nouveaux écrasent).
+       * @returns {{ok: boolean, error?: string}}
+       */
+      importConfig(jsonOrObj) {
+        try {
+          const obj =
+            typeof jsonOrObj === 'string' ? JSON.parse(jsonOrObj) : jsonOrObj
+          if (!obj || typeof obj !== 'object') {
+            return { ok: false, error: 'Pas un objet valide' }
+          }
+          set((state) => ({
+            characterScale:
+              typeof obj.characterScale === 'number'
+                ? obj.characterScale
+                : state.characterScale,
+            characterPosition: Array.isArray(obj.characterPosition)
+              ? obj.characterPosition
+              : state.characterPosition,
+            slotOverrides: obj.slotOverrides
+              ? { ...state.slotOverrides, ...obj.slotOverrides }
+              : state.slotOverrides,
+            itemScales: obj.itemScales
+              ? { ...state.itemScales, ...obj.itemScales }
+              : state.itemScales,
+          }))
+          return { ok: true }
+        } catch (e) {
+          return { ok: false, error: e?.message ?? String(e) }
+        }
+      },
+
       resetConfig() {
         set({
           characterScale: DEFAULT_CHARACTER_SCALE,

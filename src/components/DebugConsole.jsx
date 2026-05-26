@@ -174,15 +174,67 @@ function AdminTab() {
   const itemScales = useConfigStore((s) => s.itemScales)
   const setItemScale = useConfigStore((s) => s.setItemScale)
   const resetConfig = useConfigStore((s) => s.resetConfig)
+  const exportConfig = useConfigStore((s) => s.exportConfig)
+  const importConfig = useConfigStore((s) => s.importConfig)
+
+  // Copie la config dans le presse-papier sous forme de JSON formaté.
+  const handleCopy = async () => {
+    const json = exportConfig()
+    try {
+      await navigator.clipboard.writeText(json)
+      // eslint-disable-next-line no-alert
+      alert('Config copiée dans le presse-papier ✓')
+    } catch {
+      // Fallback : ouvre un prompt pour copier manuellement
+      // eslint-disable-next-line no-alert
+      window.prompt('Copie ce JSON :', json)
+    }
+  }
+
+  // Télécharge un .json local de la config (utile pour la sauvegarder
+  // en dehors du navigateur, par ex. pour le push dans le repo).
+  const handleDownload = () => {
+    const blob = new Blob([exportConfig()], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')
+    a.href = url
+    a.download = `wicked-admin-config-${stamp}.json`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }
+
+  // Prompt pour coller un JSON et l'appliquer.
+  const handlePaste = () => {
+    // eslint-disable-next-line no-alert
+    const raw = window.prompt('Colle le JSON de config ici :')
+    if (!raw) return
+    const res = importConfig(raw)
+    // eslint-disable-next-line no-alert
+    alert(res.ok ? 'Config importée ✓' : 'Erreur : ' + res.error)
+  }
 
   return (
     <>
       <section className={styles.section}>
         <header className={styles.adminHead}>
           <h3 className={styles.h3}>Personnage</h3>
-          <button type="button" className={styles.resetBtn} onClick={resetConfig} title="Réinitialiser tous les overrides">
-            ↻ Reset
-          </button>
+          <div className={styles.adminTools}>
+            <button type="button" className={styles.resetBtn} onClick={handleCopy} title="Copier la config dans le presse-papier (JSON)">
+              ⧉ Copier
+            </button>
+            <button type="button" className={styles.resetBtn} onClick={handleDownload} title="Télécharger la config en fichier .json">
+              ⬇ Télécharger
+            </button>
+            <button type="button" className={styles.resetBtn} onClick={handlePaste} title="Coller un JSON pour importer une config">
+              ⧈ Importer
+            </button>
+            <button type="button" className={styles.resetBtn} onClick={resetConfig} title="Réinitialiser tous les overrides">
+              ↻ Reset
+            </button>
+          </div>
         </header>
         <RangeRow
           label="Scale"
