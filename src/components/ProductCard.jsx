@@ -115,6 +115,33 @@ export default function ProductCard({ card }) {
         <header className={styles.head}>
           <span className={styles.categorie}>{categorieLabel}</span>
           <div className={styles.headActions}>
+            {produit && (
+              <div className={styles.headQty} aria-label="Quantité">
+                <button
+                  type="button"
+                  className={styles.headQtyBtn}
+                  onClick={() => setQuantite(card.id, card.quantite - 1)}
+                  disabled={isUnique || card.quantite <= 1}
+                  aria-label="Diminuer la quantité"
+                  title={isUnique ? 'Pièce unique : quantité fixée à 1' : 'Diminuer'}
+                >
+                  −
+                </button>
+                <span className={styles.headQtyValue} aria-live="polite">
+                  {card.quantite}
+                </span>
+                <button
+                  type="button"
+                  className={styles.headQtyBtn}
+                  onClick={() => setQuantite(card.id, card.quantite + 1)}
+                  disabled={isUnique}
+                  aria-label="Augmenter la quantité"
+                  title={isUnique ? 'Pièce unique : quantité fixée à 1' : 'Augmenter'}
+                >
+                  +
+                </button>
+              </div>
+            )}
             <button
               type="button"
               className={styles.toggleBtn}
@@ -189,30 +216,6 @@ export default function ProductCard({ card }) {
                 })}
               </div>
             )}
-
-            <div className={styles.qty} aria-label="Quantité">
-              <button
-                type="button"
-                className={styles.qtyBtn}
-                onClick={() => setQuantite(card.id, card.quantite - 1)}
-                disabled={isUnique || card.quantite <= 1}
-                aria-label="Diminuer la quantité"
-                title={isUnique ? 'Pièce unique : quantité fixée à 1' : 'Diminuer'}
-              >
-                −
-              </button>
-              <span className={styles.qtyValue} aria-live="polite">{card.quantite}</span>
-              <button
-                type="button"
-                className={styles.qtyBtn}
-                onClick={() => setQuantite(card.id, card.quantite + 1)}
-                disabled={isUnique}
-                aria-label="Augmenter la quantité"
-                title={isUnique ? 'Pièce unique : quantité fixée à 1' : 'Augmenter'}
-              >
-                +
-              </button>
-            </div>
 
             <div className={styles.prixBlock}>
               <div className={styles.prixRow}>

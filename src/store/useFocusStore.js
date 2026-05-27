@@ -9,8 +9,14 @@ import { create } from 'zustand'
 
 export const useFocusStore = create((set) => ({
   focusedCardId: null,
+  /** Compteur incrémenté à chaque demande de reset caméra. CameraFocus écoute
+      cette valeur et anime le retour à la pose initiale. */
+  resetSig: 0,
   focus: (cardId) => set({ focusedCardId: cardId }),
   clearFocus: () => set({ focusedCardId: null }),
+  /** Demande le retour caméra à la pose initiale (vue d'accueil). */
+  resetCamera: () =>
+    set((s) => ({ focusedCardId: null, resetSig: s.resetSig + 1 })),
 }))
 
 if (import.meta.env?.DEV && typeof window !== 'undefined') {

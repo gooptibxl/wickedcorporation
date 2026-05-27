@@ -6,16 +6,22 @@ import Character from './Character.jsx'
 import CharacterRig from './CharacterRig.jsx'
 import Equipment from './Equipment.jsx'
 import CameraFocus from './CameraFocus.jsx'
+import { useFocusStore } from '../store/useFocusStore.js'
 import styles from './Scene.module.css'
 
 /* =============================================================================
- *  ROTATION CAMÉRA (orbit autour du perso). Le perso lui-même ne tourne pas.
+ *  ROTATION + ZOOM CAMÉRA (orbit autour du perso). Le perso lui-même ne tourne pas.
  * =========================================================================== */
 
 /** Horizontal : 12 positions sur 360° → 30° / clic (boucle naturelle). */
 const AZIMUTH_STEP = (Math.PI * 2) / 12
 /** Vertical : 12 positions sur 180° → 15° / clic. */
 const POLAR_STEP = Math.PI / 12
+/** Facteur multiplicatif appliqué à la distance caméra-target à chaque clic
+ *  zoom +/- (0.85 = on se rapproche de 15 %, 1/0.85 ≈ 1.176 = on s'éloigne). */
+const ZOOM_STEP = 0.85
+const ZOOM_MIN_DISTANCE = 0.3
+const ZOOM_MAX_DISTANCE = 12
 
 /**
  * Drag souris = PAN (translation X/Y, pas de rotation orbitale).
@@ -26,6 +32,7 @@ const POLAR_STEP = Math.PI / 12
  */
 export default function Scene() {
   const controlsRef = useRef(null)
+  const resetCamera = useFocusStore((s) => s.resetCamera)
 
   const tournerGauche = () => {
     const c = controlsRef.current
@@ -51,6 +58,29 @@ export default function Scene() {
     if (!c) return
     const next = Math.min(Math.PI, c.getPolarAngle() + POLAR_STEP)
     c.setPolarAngle(next)
+    c.update()
+  }
+
+  // Zoom = on déplace la caméra le long du vecteur target→camera. Plus court
+  // = plus proche. On clamp à [minDistance, maxDistance] des OrbitControls.
+  const zoomIn = () => {
+    const c = controlsRef.current
+    if (!c) return
+    const cam = c.object
+    const offset = cam.position.clone().sub(c.target)
+    const next = Math.max(ZOOM_MIN_DISTANCE, offset.length() * ZOOM_STEP)
+    offset.setLength(next)
+    cam.position.copy(c.target).add(offset)
+    c.update()
+  }
+  const zoomOut = () => {
+    const c = controlsRef.current
+    if (!c) return
+    const cam = c.object
+    const offset = cam.position.clone().sub(c.target)
+    const next = Math.min(ZOOM_MAX_DISTANCE, offset.length() / ZOOM_STEP)
+    offset.setLength(next)
+    cam.position.copy(c.target).add(offset)
     c.update()
   }
 
@@ -192,6 +222,37 @@ export default function Scene() {
       >
         ⌄
       </button>
+
+      {/* Bloc zoom + reset, en haut à droite de la zone 3D. */}
+      <div className={styles.zoomCluster}>
+        <button
+          type="button"
+          className={styles.zoomBtn}
+          onClick={zoomIn}
+          aria-label="Zoomer"
+          title="Zoomer"
+        >
+          +
+        </button>
+        <button
+          type="button"
+          className={styles.zoomBtn}
+          onClick={zoomOut}
+          aria-label="Dézoomer"
+          title="Dézoomer"
+        >
+          −
+        </button>
+        <button
+          type="button"
+          className={`${styles.zoomBtn} ${styles.resetBtn}`}
+          onClick={resetCamera}
+          aria-label="Revenir à la vue initiale"
+          title="Vue initiale"
+        >
+          ⊕
+        </button>
+      </div>
     </div>
   )
 }

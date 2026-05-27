@@ -39,9 +39,15 @@ function findByCardId(root, cardId) {
   return found
 }
 
+/** Pose caméra initiale (doit matcher celle du <Canvas camera={…}> + target
+ *  des <OrbitControls>). Utilisée par le bouton reset. */
+const INITIAL_CAM_POS = new THREE.Vector3(0, 1.4, 4)
+const INITIAL_TARGET = new THREE.Vector3(0, 1, 0)
+
 export default function CameraFocus({ controlsRef }) {
   const focusedCardId = useFocusStore((s) => s.focusedCardId)
   const clearFocus = useFocusStore((s) => s.clearFocus)
+  const resetSig = useFocusStore((s) => s.resetSig)
   const { camera, scene, gl } = useThree()
 
   const stateRef = useRef({
@@ -72,6 +78,19 @@ export default function CameraFocus({ controlsRef }) {
       s.mode = 'exiting'
     }
   }, [focusedCardId, camera, controlsRef])
+
+  // Bouton reset : ré-utilise la logique "exiting" en forçant la cible vers
+  // la pose initiale (au lieu de la pose sauvegardée à l'entrée).
+  useEffect(() => {
+    if (resetSig === 0) return
+    const controls = controlsRef.current
+    if (!controls) return
+    const s = stateRef.current
+    s.savedCamPos.copy(INITIAL_CAM_POS)
+    s.savedTarget.copy(INITIAL_TARGET)
+    s.mode = 'exiting'
+    controls.enablePan = false
+  }, [resetSig, controlsRef])
 
   // Détection du drag pour sortir du focus. Listener au niveau du canvas
   // (pas via OrbitControls 'start' pour ne pas se déclencher au clic court).
