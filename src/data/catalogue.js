@@ -48,7 +48,7 @@ export const CATEGORY_LABELS = {
   Ring:     'Bague',
   Glasses:  'Lunettes',
   Cap:      'Casquette',
-  Patch:    'Pièces cousues',
+  Patch:    'Pieces cousues',
 }
 
 export const EMPLACEMENTS_3D = [
@@ -81,8 +81,8 @@ export const CATALOGUE = [
     prix: 8900,
     variantes: [
       { id: 'noir', couleur: { nom: 'Noir charbon', hex: '#1a1a1a' } },
-      { id: 'ecru', couleur: { nom: 'Écru',         hex: '#e8dfcf' } },
-      { id: 'kaki', couleur: { nom: 'Kaki délavé',  hex: '#6b7a4a' } },
+      { id: 'ecru', couleur: { nom: 'Ecru',         hex: '#e8dfcf' } },
+      { id: 'kaki', couleur: { nom: 'Kaki delave',  hex: '#6b7a4a' } },
     ],
     tailles: ['S', 'M', 'L', 'XL'],
     unique: false,
@@ -110,7 +110,7 @@ export const CATALOGUE = [
     categorie: 'Tee',
     prix: 3500,
     variantes: [
-      { id: 'blanc',   couleur: { nom: 'Blanc cassé', hex: '#f3efe8' } },
+      { id: 'blanc',   couleur: { nom: 'Blanc casse', hex: '#f3efe8' } },
       { id: 'noir',    couleur: { nom: 'Noir',        hex: '#101010' } },
       { id: 'lavande', couleur: { nom: 'Lavande',     hex: '#b3a3d9' } },
     ],
@@ -121,11 +121,11 @@ export const CATALOGUE = [
   },
   {
     id: 'tee-002',
-    nom: 'Tee Crop Recyclé',
+    nom: 'Tee Crop Recycle',
     categorie: 'Tee',
     prix: 4200,
     variantes: [
-      { id: 'gris',  couleur: { nom: 'Gris béton',   hex: '#7d7d7d' } },
+      { id: 'gris',  couleur: { nom: 'Gris beton',   hex: '#7d7d7d' } },
       { id: 'rouge', couleur: { nom: 'Rouge brique', hex: '#9a3b2a' } },
     ],
     tailles: ['XS', 'S', 'M'],
@@ -152,7 +152,7 @@ export const CATALOGUE = [
   },
   {
     id: 'pants-002',
-    nom: 'Pantalon Patché Atelier 1/1',
+    nom: 'Pantalon Patche Atelier 1/1',
     categorie: 'Pants',
     prix: 22000,
     variantes: [
@@ -167,7 +167,7 @@ export const CATALOGUE = [
   // ----------------------------- BELT ----------------------------------------
   {
     id: 'belt-001',
-    nom: 'Ceinture Cuir Récupéré',
+    nom: 'Ceinture Cuir Recupere',
     categorie: 'Belt',
     prix: 5500,
     variantes: [
@@ -186,7 +186,7 @@ export const CATALOGUE = [
     prix: 3800,
     variantes: [
       { id: 'olive', couleur: { nom: 'Olive',       hex: '#586540' } },
-      { id: 'creme', couleur: { nom: 'Crème',       hex: '#d8cfb6' } },
+      { id: 'creme', couleur: { nom: 'Creme',       hex: '#d8cfb6' } },
       { id: 'navy',  couleur: { nom: 'Bleu marine', hex: '#1f2a44' } },
     ],
     tailles: [],
@@ -198,12 +198,12 @@ export const CATALOGUE = [
   // ----------------------------- NECKLACE ------------------------------------
   {
     id: 'necklace-001',
-    nom: 'Collier Chaîne Acier',
+    nom: 'Collier Chaine Acier',
     categorie: 'Necklace',
     prix: 4500,
     variantes: [
-      { id: 'silver', couleur: { nom: 'Argent brossé', hex: '#c8c8cc' } },
-      { id: 'gold',   couleur: { nom: 'Doré',         hex: '#caa24f' } },
+      { id: 'silver', couleur: { nom: 'Argent brosse', hex: '#c8c8cc' } },
+      { id: 'gold',   couleur: { nom: 'Dore',         hex: '#caa24f' } },
     ],
     tailles: [],
     unique: false,
@@ -212,7 +212,7 @@ export const CATALOGUE = [
   },
   {
     id: 'necklace-002',
-    nom: 'Pendentif Verre Soufflé 1/1',
+    nom: 'Pendentif Verre Souffle 1/1',
     categorie: 'Necklace',
     prix: 9800,
     variantes: [
@@ -227,7 +227,7 @@ export const CATALOGUE = [
   // ----------------------------- BRACELET ------------------------------------
   {
     id: 'bracelet-001',
-    nom: 'Bracelet Corde Tressée',
+    nom: 'Bracelet Corde Tressee',
     categorie: 'Bracelet',
     prix: 1900,
     variantes: [
@@ -242,7 +242,7 @@ export const CATALOGUE = [
   },
   {
     id: 'bracelet-002',
-    nom: 'Manchette Cuir Clouté',
+    nom: 'Manchette Cuir Cloute',
     categorie: 'Bracelet',
     prix: 6800,
     variantes: [
@@ -262,8 +262,8 @@ export const CATALOGUE = [
     categorie: 'Ring',
     prix: 3900,
     variantes: [
-      { id: 'silver', couleur: { nom: 'Argent brossé', hex: '#c8c8cc' } },
-      { id: 'gold',   couleur: { nom: 'Doré',         hex: '#caa24f' } },
+      { id: 'silver', couleur: { nom: 'Argent brosse', hex: '#c8c8cc' } },
+      { id: 'gold',   couleur: { nom: 'Dore',         hex: '#caa24f' } },
       { id: 'noir',   couleur: { nom: 'Acier noirci', hex: '#1a1a1a' } },
     ],
     tailles: ['50', '52', '54', '56', '58', '60'],
@@ -288,13 +288,13 @@ export const CATALOGUE = [
   // ----------------------------- GLASSES -------------------------------------
   {
     id: 'glasses-001',
-    nom: 'Lunettes Upcyclées Carrées',
+    nom: 'Lunettes Upcyclees Carrees',
     categorie: 'Glasses',
     prix: 12000,
     variantes: [
-      { id: 'noir',    couleur: { nom: 'Acétate noir', hex: '#111111' } },
-      { id: 'ecaille', couleur: { nom: 'Écaille',     hex: '#6b3a1b' } },
-      { id: 'cristal', couleur: { nom: 'Cristal fumé', hex: '#a8a8b0' } },
+      { id: 'noir',    couleur: { nom: 'Acetate noir', hex: '#111111' } },
+      { id: 'ecaille', couleur: { nom: 'Ecaille',     hex: '#6b3a1b' } },
+      { id: 'cristal', couleur: { nom: 'Cristal fume', hex: '#a8a8b0' } },
     ],
     tailles: [],
     unique: false,
@@ -307,7 +307,7 @@ export const CATALOGUE = [
     categorie: 'Glasses',
     prix: 18500,
     variantes: [
-      { id: 'or', couleur: { nom: 'Métal doré, verres ambre', hex: '#caa24f' } },
+      { id: 'or', couleur: { nom: 'Metal dore, verres ambre', hex: '#caa24f' } },
     ],
     tailles: [],
     unique: true,
@@ -318,13 +318,13 @@ export const CATALOGUE = [
   // ----------------------------- CAP -----------------------------------------
   {
     id: 'cap-001',
-    nom: 'Casquette Trucker Brodée',
+    nom: 'Casquette Trucker Brodee',
     categorie: 'Cap',
     prix: 4200,
     variantes: [
       { id: 'noir',     couleur: { nom: 'Noir',         hex: '#0e0e0e' } },
       { id: 'kaki',     couleur: { nom: 'Kaki',         hex: '#5b6a3e' } },
-      { id: 'blanc',    couleur: { nom: 'Blanc cassé',  hex: '#ece6d8' } },
+      { id: 'blanc',    couleur: { nom: 'Blanc casse',  hex: '#ece6d8' } },
       { id: 'bordeaux', couleur: { nom: 'Bordeaux',     hex: '#6b1f2c' } },
     ],
     tailles: [],
@@ -334,7 +334,7 @@ export const CATALOGUE = [
   },
   {
     id: 'cap-002',
-    nom: 'Casquette 5-Panel Patchée 1/1',
+    nom: 'Casquette 5-Panel Patchee 1/1',
     categorie: 'Cap',
     prix: 8900,
     variantes: [
@@ -349,13 +349,13 @@ export const CATALOGUE = [
   // ----------------------------- PATCH (pièces cousues) ---------------------
   {
     id: 'patch-001',
-    nom: 'Patch Brodé Wicked',
+    nom: 'Patch Brode Wicked',
     categorie: 'Patch',
     prix: 1500,
     variantes: [
       { id: 'rouge', couleur: { nom: 'Rouge',  hex: '#a52a2a' } },
       { id: 'noir',  couleur: { nom: 'Noir',   hex: '#0a0a0a' } },
-      { id: 'creme', couleur: { nom: 'Crème',  hex: '#dbcfb1' } },
+      { id: 'creme', couleur: { nom: 'Creme',  hex: '#dbcfb1' } },
     ],
     tailles: [],
     unique: false,
@@ -364,7 +364,7 @@ export const CATALOGUE = [
   },
   {
     id: 'patch-002',
-    nom: 'Pièce Brodée Main 1/1',
+    nom: 'Piece Brodee Main 1/1',
     categorie: 'Patch',
     prix: 6800,
     variantes: [

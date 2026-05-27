@@ -99,7 +99,7 @@ export default function RealPhotoModal({ photos = [], titre = '', onClose }) {
       <div className={styles.panel}>
         <header className={styles.header}>
           <span className={styles.title}>
-            {titre ? `${titre} — ` : ''}Photos réelles
+            {titre ? `${titre} - ` : ''}Photos reelles
           </span>
           <button
             type="button"
@@ -133,7 +133,7 @@ export default function RealPhotoModal({ photos = [], titre = '', onClose }) {
             />
           ) : (
             <p className={styles.empty}>
-              Aucune photo réelle disponible pour cet article.
+              Aucune photo reelle disponible pour cet article.
             </p>
           )}
 

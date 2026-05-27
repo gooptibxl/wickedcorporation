@@ -90,12 +90,12 @@ function StateTab() {
   return (
     <>
       <section className={styles.section}>
-        <h3 className={styles.h3}>Résumé</h3>
+        <h3 className={styles.h3}>Resume</h3>
         <ul className={styles.kv}>
           <li><span className={styles.k}>cartes</span><span className={styles.v}>{cards.length}</span></li>
-          <li><span className={styles.k}>désactivées</span><span className={styles.v}>{cards.filter((c) => c.desactivee).length}</span></li>
-          <li><span className={styles.k}>équipement (3D)</span><span className={styles.v}>{equipement.length}</span></li>
-          <li><span className={styles.k}>pièces (panier)</span><span className={styles.v}>{cart.qtyTotal}</span></li>
+          <li><span className={styles.k}>desactivees</span><span className={styles.v}>{cards.filter((c) => c.desactivee).length}</span></li>
+          <li><span className={styles.k}>equipement (3D)</span><span className={styles.v}>{equipement.length}</span></li>
+          <li><span className={styles.k}>pieces (panier)</span><span className={styles.v}>{cart.qtyTotal}</span></li>
           <li><span className={styles.k}>total</span><span className={`${styles.v} ${styles.totalV}`}>{formatPrix(total)}</span></li>
         </ul>
       </section>
@@ -125,7 +125,7 @@ function StateTab() {
       </section>
 
       <section className={styles.section}>
-        <h3 className={styles.h3}>Équipement 3D ({equipement.length})</h3>
+        <h3 className={styles.h3}>Equipement 3D ({equipement.length})</h3>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
             <thead>
@@ -133,7 +133,7 @@ function StateTab() {
             </thead>
             <tbody>
               {equipement.length === 0 && (
-                <tr><td colSpan={4} className={styles.empty}>— rien d'équipé —</td></tr>
+                <tr><td colSpan={4} className={styles.empty}>- rien d'equipe -</td></tr>
               )}
               {equipement.map((it) => (
                 <tr key={it.cardId}>
@@ -226,7 +226,7 @@ function AdminTab() {
               ⧉ Copier
             </button>
             <button type="button" className={styles.resetBtn} onClick={handleDownload} title="Télécharger la config en fichier .json">
-              ⬇ Télécharger
+              ⬇ Telecharger
             </button>
             <button type="button" className={styles.resetBtn} onClick={handlePaste} title="Coller un JSON pour importer une config">
               ⧈ Importer
@@ -258,10 +258,10 @@ function AdminTab() {
       </section>
 
       <section className={styles.section}>
-        <h3 className={styles.h3}>Slots 3D — position, rotation & scale</h3>
+        <h3 className={styles.h3}>Slots 3D - position, rotation & scale</h3>
         <p className={styles.hint}>
-          POS x/y/z (gauche-droite / bas-haut / arrière-avant, en unités) ·
-          ROT x/y/z (en degrés, -180 → +180 = full pivot 360°) · scale.
+          POS x/y/z (gauche-droite / bas-haut / arriere-avant, en unites) ·
+          ROT x/y/z (en degres, -180 a +180 = full pivot 360°) · scale.
           Utile par ex. pour orienter une bague autour du doigt.
         </p>
         {Object.keys(slotOverrides).map((slot) => (
@@ -277,9 +277,9 @@ function AdminTab() {
       </section>
 
       <section className={styles.section}>
-        <h3 className={styles.h3}>Scale par catégorie d'objet</h3>
+        <h3 className={styles.h3}>Scale par categorie d'objet</h3>
         <p className={styles.hint}>
-          Multiplicateur appliqué à TOUS les items d'une catégorie.
+          Multiplicateur applique a TOUS les items d'une categorie.
         </p>
         {CATEGORIES.map((cat) => (
           <RangeRow

@@ -19,7 +19,7 @@ export default function CartFooter() {
   const articlesLabel = isEmpty
     ? ''
     : `${cart.items.length} article${cart.items.length > 1 ? 's' : ''} · ` +
-      `${cart.qtyTotal} pièce${cart.qtyTotal > 1 ? 's' : ''}`
+      `${cart.qtyTotal} piece${cart.qtyTotal > 1 ? 's' : ''}`
 
   return (
     <footer className={styles.footer} aria-label="Total et paiement">
