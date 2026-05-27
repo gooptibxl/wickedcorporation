@@ -1,18 +1,33 @@
 import { useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
+import * as THREE from 'three'
 import Character from './Character.jsx'
 import CharacterRig from './CharacterRig.jsx'
 import Equipment from './Equipment.jsx'
 import styles from './Scene.module.css'
 
-/** Pas de rotation par clic. PI/4 = 45°. */
+/** Pas de rotation par clic sur les flèches. PI/4 = 45°. */
 const ROTATION_STEP = Math.PI / 4
+/** Limite haute/basse de la rotation X du perso pour ne pas le voir cul par-dessus tête. */
+const ROTATION_X_LIMIT = Math.PI / 3 // ±60°
 
+/**
+ * Drag souris = PAN (translation X/Y, pas de rotation orbitale).
+ * Rotation du perso uniquement via les 4 boutons : ‹ › (Y) et ⌃ ⌄ (X).
+ * Zoom inchangé (molette / pinch), centré sur le curseur.
+ */
 export default function Scene() {
   const [rotationY, setRotationY] = useState(0)
+  const [rotationX, setRotationX] = useState(0)
+
   const tournerGauche = () => setRotationY((r) => r - ROTATION_STEP)
   const tournerDroite = () => setRotationY((r) => r + ROTATION_STEP)
+  // X : on clamp pour ne pas faire de loopings.
+  const tournerHaut = () =>
+    setRotationX((r) => Math.max(-ROTATION_X_LIMIT, r - ROTATION_STEP))
+  const tournerBas = () =>
+    setRotationX((r) => Math.min(ROTATION_X_LIMIT, r + ROTATION_STEP))
 
   return (
     <div className={styles.wrapper}>
@@ -22,12 +37,9 @@ export default function Scene() {
         camera={{ position: [0, 1.4, 4], fov: 35, near: 0.1, far: 50 }}
         style={{ display: 'block', width: '100%', height: '100%' }}
       >
-        {/* Fond WebGL bleu-mauve clair (style hologramme). Le grain animé
-            est dessus côté HTML, voir .hologramGrain dans Scene.module.css. */}
         <color attach="background" args={['#a8a4e8']} />
         <fog attach="fog" args={['#a8a4e8', 14, 40]} />
 
-        {/* Lumière ambiante un peu plus présente pour cohérence avec le bg clair. */}
         <ambientLight intensity={0.55} />
         <directionalLight
           castShadow
@@ -44,15 +56,11 @@ export default function Scene() {
           shadow-bias={-0.0005}
         />
 
-        {/* Sol = grand disque mauve plus sombre que le bg pour le grounding. */}
         <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
           <circleGeometry args={[20, 64]} />
           <meshStandardMaterial color="#5a3082" />
         </mesh>
 
-        {/* Podium : un disque rasant sous les pieds + un anneau émissif autour.
-            Hauteur ~5 mm pour ne pas faire flotter le perso : l'anneau crée
-            l'effet "spotlight" comme dans la référence sans surélever. */}
         <group name="podium" position={[0, 0, 0]}>
           <mesh position={[0, 0.003, 0]} receiveShadow>
             <cylinderGeometry args={[1.0, 1.05, 0.006, 64]} />
@@ -62,15 +70,12 @@ export default function Scene() {
               roughness={0.4}
             />
           </mesh>
-          {/* Anneau émissif violet vif — fait le bord lumineux du podium */}
           <mesh position={[0, 0.012, 0]} rotation={[-Math.PI / 2, 0, 0]}>
             <ringGeometry args={[0.98, 1.02, 96]} />
             <meshBasicMaterial color="#d97aff" toneMapped={false} />
           </mesh>
         </group>
 
-        {/* Petit halo lumineux émanant du sol (point light très bas, faible
-            distance) pour renforcer l'effet "subject sous spot". */}
         <pointLight
           position={[0, 0.2, 0]}
           intensity={1.6}
@@ -79,42 +84,55 @@ export default function Scene() {
           color="#d97aff"
         />
 
-        <CharacterRig targetRotationY={rotationY}>
+        <CharacterRig
+          targetRotationY={rotationY}
+          targetRotationX={rotationX}
+        >
           <Character />
           <Equipment />
         </CharacterRig>
 
         <OrbitControls
           target={[0, 1, 0]}
-          enablePan={false}
-          // Zoom débridé : on peut s'approcher très près (0.3 = ~30 cm du
-          // sujet, pour voir les détails brodés / textures) et reculer
-          // jusqu'à 12 unités pour une vue d'ensemble large.
+          // ── ROTATION ORBITALE DÉSACTIVÉE ──
+          // Le drag souris ne fait PLUS tourner la caméra autour du perso.
+          // On veut un comportement "pan fixe" : la vue se translate
+          // verticalement/horizontalement sans changer d'angle.
+          enableRotate={false}
+          // ── PAN ACTIVÉ ──
+          enablePan={true}
+          // Pan en "screen space" : on déplace dans le plan de la caméra,
+          // pas dans le plan du monde → comportement naturel sur tous les
+          // angles. Sans ce flag, le pan vertical bouge sur l'axe Z aussi.
+          screenSpacePanning={true}
+          panSpeed={1.2}
+          // Clic gauche → pan (par défaut c'est rotate). Du coup tout drag
+          // souris = pan, sans avoir besoin du clic droit ou de Cmd+clic.
+          mouseButtons={{
+            LEFT: THREE.MOUSE.PAN,
+            MIDDLE: THREE.MOUSE.DOLLY,
+            RIGHT: THREE.MOUSE.PAN,
+          }}
+          // Un doigt sur mobile/trackpad → pan ; deux doigts → zoom.
+          touches={{
+            ONE: THREE.TOUCH.PAN,
+            TWO: THREE.TOUCH.DOLLY_PAN,
+          }}
+          // Zoom inchangé.
+          enableZoom={true}
           minDistance={0.3}
           maxDistance={12}
-          // Zoom centré sur le CURSEUR (pas sur le target fixe). Le target
-          // se déplace pour garder le point sous la souris immobile à
-          // l'écran → comportement Google Maps / Blender.
           zoomToCursor
-          // Vitesse de zoom un poil boostée pour que les petits incréments
-          // soient plus efficaces avec la dynamic range élargie.
           zoomSpeed={1.2}
-          // Rotation verticale autorisée au drag (haut/bas) mais bornée pour
-          // ne pas regarder le perso pile d'au-dessus ou pile d'en-dessous.
-          // π/6 → 5π/6 = ±60° autour de l'horizontale. Largement assez pour
-          // observer la casquette ou les chaussures.
-          minPolarAngle={Math.PI / 6}
-          maxPolarAngle={(5 * Math.PI) / 6}
           enableDamping
           dampingFactor={0.08}
         />
       </Canvas>
 
-      {/* Overlays HTML "hologramme" — au-dessus du canvas, pointer-events:none
-          pour ne pas voler les clics du canvas / des flèches. */}
       <div className={styles.hologramScan} aria-hidden="true" />
       <div className={styles.hologramGrain} aria-hidden="true" />
 
+      {/* Flèches rotation horizontale (axe Y du perso) */}
       <button
         type="button"
         className={`${styles.spinBtn} ${styles.spinLeft}`}
@@ -132,6 +150,26 @@ export default function Scene() {
         title="Tourner à droite (45°)"
       >
         ›
+      </button>
+
+      {/* Flèches rotation verticale (axe X du perso) */}
+      <button
+        type="button"
+        className={`${styles.spinBtn} ${styles.spinUp}`}
+        onClick={tournerHaut}
+        aria-label="Basculer le personnage vers le haut"
+        title="Basculer vers le haut (45°)"
+      >
+        ⌃
+      </button>
+      <button
+        type="button"
+        className={`${styles.spinBtn} ${styles.spinDown}`}
+        onClick={tournerBas}
+        aria-label="Basculer le personnage vers le bas"
+        title="Basculer vers le bas (45°)"
+      >
+        ⌄
       </button>
     </div>
   )

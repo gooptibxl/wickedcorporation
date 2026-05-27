@@ -58,8 +58,6 @@
 
 .spinBtn {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -87,12 +85,33 @@
   outline: none;
 }
 
-.spinBtn:active {
+/* Boutons rotation horizontale (Y) : centrés verticalement, sur les bords. */
+.spinLeft,
+.spinRight {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.spinLeft  { left: 1rem; }
+.spinRight { right: 1rem; }
+
+.spinLeft:active,
+.spinRight:active {
   transform: translateY(-50%) scale(0.92);
 }
 
-.spinLeft  { left: 1rem; }
-.spinRight { right: 1rem; }
+/* Boutons rotation verticale (X) : centrés horizontalement, en haut/bas. */
+.spinUp,
+.spinDown {
+  left: 50%;
+  transform: translateX(-50%);
+}
+.spinUp   { top: 1rem; }
+.spinDown { bottom: 1rem; }
+
+.spinUp:active,
+.spinDown:active {
+  transform: translateX(-50%) scale(0.92);
+}
 
 @media (max-width: 600px) {
   .spinBtn {
@@ -102,4 +121,6 @@
   }
   .spinLeft  { left: 0.6rem; }
   .spinRight { right: 0.6rem; }
+  .spinUp    { top: 0.6rem; }
+  .spinDown  { bottom: 0.6rem; }
 }
