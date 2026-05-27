@@ -59,7 +59,15 @@ function nextFreeRingSlot(cards) {
 // déjà déployée dans public/models/ pour que la démo Vercel soit immédiate-
 // ment visuelle. À étendre quand de nouveaux GLB arrivent (ex. rebasculer
 // sur ['Hoodie', 'Tee', 'Belt', 'Necklace'] une fois tous déployés).
-const CATEGORIES_INITIALES = ['Cap', 'Glasses', 'Bracelet', 'Ring']
+const CATEGORIES_INITIALES = [
+  'Cap',
+  'Glasses',
+  'Bracelet',
+  'Ring',
+  'Tee',
+  'Belt',
+  'Necklace',
+]
 
 /** Met _cardSeq à la valeur max trouvée dans une liste de cartes, pour
  *  que les prochains nextCardId() ne créent pas de doublons. */
