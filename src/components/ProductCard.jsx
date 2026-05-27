@@ -81,7 +81,7 @@ export default function ProductCard({ card }) {
           aria-label={`Voir les photos réelles ${produit?.nom ?? ''}`}
           title="Voir les photos réelles du produit"
         >
-          Image réelle
+          Voir image réelle
         </button>
 
         {canNavigate && (
@@ -106,7 +106,9 @@ export default function ProductCard({ card }) {
             </button>
           </>
         )}
-        <span className={styles.previewLabel} aria-hidden="true">Aperçu</span>
+        <span className={styles.previewLabel} aria-hidden="true">
+          Modèle 3D
+        </span>
       </div>
 
       <div className={styles.body}>

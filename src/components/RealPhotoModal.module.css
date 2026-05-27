@@ -106,9 +106,10 @@
   transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
 }
 .closeBtn:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-  background: rgba(255, 138, 138, 0.08);
+  border-color: #d4a8ff;
+  color: #e8ccff;
+  background: rgba(212, 168, 255, 0.12);
+  box-shadow: 0 0 10px rgba(212, 168, 255, 0.35);
 }
 
 /* ============================== STAGE ===================================== */

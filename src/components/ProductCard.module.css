@@ -76,20 +76,24 @@
   z-index: 1;
 }
 
+/* Badge "Modèle 3D" en bas à droite — style digital, sobre HUD mauve. */
 .previewLabel {
   position: absolute;
   bottom: 0.5rem;
   right: 0.6rem;
-  font-family: var(--font-display);
-  font-size: 0.55rem;
-  letter-spacing: 0.22em;
+  font-family: var(--font-digital);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.55);
-  background: rgba(255, 255, 255, 0.6);
-  padding: 0.15rem 0.4rem;
-  border-radius: 999px;
-  font-weight: 600;
-  backdrop-filter: blur(2px);
+  color: #e8ccff;
+  background: rgba(10, 6, 18, 0.55);
+  border: 1px solid var(--accent-soft);
+  padding: 0.18rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 400;
+  text-shadow: 0 0 6px rgba(194, 82, 255, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
   pointer-events: none;
   z-index: 2;
 }
