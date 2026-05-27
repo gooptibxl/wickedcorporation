@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useStore } from '../store/useStore.js'
 import {
   produitParId,
@@ -6,7 +7,9 @@ import {
 } from '../data/catalogue.js'
 import { formatPrix } from '../utils/format.js'
 import { sizeMultiplier } from '../utils/size.js'
+import { buildCart, checkout } from '../services/checkout.js'
 import CardPreview3D from './CardPreview3D.jsx'
+import RealPhotoModal from './RealPhotoModal.jsx'
 import styles from './ProductCard.module.css'
 
 export default function ProductCard({ card }) {
@@ -17,6 +20,8 @@ export default function ProductCard({ card }) {
   const setQuantite = useStore((s) => s.setQuantite)
   const toggleDesactiveeCarte = useStore((s) => s.toggleDesactiveeCarte)
   const isDisabled = card.desactivee === true
+
+  const [showPhotos, setShowPhotos] = useState(false)
 
   const produit = produitParId(card.produitId)
   const variante =
@@ -37,11 +42,22 @@ export default function ProductCard({ card }) {
     setProduit(card.id, next.id)
   }
 
-  // Fond du preview = neutre, plus de variant color. Le GLB rotatif suffit
-  // à identifier visuellement la couleur (texture du modèle).
+  // Achat solo : checkout sur une carte unique (clone avec desactivee=false
+  // pour que buildCart ne la skip pas même si l'utilisateur l'a désactivée
+  // dans le bundle).
+  const handleBuySolo = () => {
+    if (!produit) return
+    const synthetic = { ...card, desactivee: false }
+    const cart = buildCart([synthetic])
+    if (!cart.items.length) return
+    checkout(cart).catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error('[ProductCard] checkout solo error:', err)
+    })
+  }
+
   const isUnique = produit?.unique === true
   const ligneTotal = produit ? produit.prix * card.quantite : 0
-
   const categorieLabel = CATEGORY_LABELS[card.categorie] ?? card.categorie
 
   return (
@@ -50,15 +66,23 @@ export default function ProductCard({ card }) {
       aria-disabled={isDisabled}
     >
       <div className={styles.preview}>
-        {/* Mini scène 3D rotative : charge le GLB de la variante avec
-            auto-fit + multiplicateur de taille (XS plus petit, XL plus grand).
-            Le fond du .preview est neutre maintenant (plus de variant color). */}
         {variante && (
           <CardPreview3D
             url={variante.fichierGLB}
             sizeMult={sizeMultiplier(produit, card.taille)}
           />
         )}
+
+        {/* Badge "Image réelle" en haut à gauche → ouvre le carrousel photos. */}
+        <button
+          type="button"
+          className={styles.realPhotoBtn}
+          onClick={() => setShowPhotos(true)}
+          aria-label={`Voir les photos réelles ${produit?.nom ?? ''}`}
+          title="Voir les photos réelles du produit"
+        >
+          Image réelle
+        </button>
 
         {canNavigate && (
           <>
@@ -189,7 +213,19 @@ export default function ProductCard({ card }) {
             </div>
 
             <div className={styles.prixBlock}>
-              <p className={styles.prix}>{formatPrix(ligneTotal)}</p>
+              <div className={styles.prixRow}>
+                <p className={styles.prix}>{formatPrix(ligneTotal)}</p>
+                <button
+                  type="button"
+                  className={styles.buySoloBtn}
+                  onClick={handleBuySolo}
+                  aria-label={`Acheter uniquement : ${produit.nom}`}
+                  title="Acheter cet article seul"
+                >
+                  <span>Acheter</span>
+                  <span className={styles.buySoloArrow} aria-hidden="true">→</span>
+                </button>
+              </div>
               {card.quantite > 1 && (
                 <p className={styles.prixDetail}>
                   {card.quantite} × {formatPrix(produit.prix)}
@@ -201,6 +237,14 @@ export default function ProductCard({ card }) {
           <p className={styles.vide}>Aucun produit sélectionné</p>
         )}
       </div>
+
+      {showPhotos && (
+        <RealPhotoModal
+          photos={variante?.photos ?? []}
+          titre={produit?.nom ?? categorieLabel}
+          onClose={() => setShowPhotos(false)}
+        />
+      )}
     </article>
   )
 }

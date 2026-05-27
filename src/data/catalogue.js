@@ -378,10 +378,16 @@ export const CATALOGUE = [
 ]
 
 // Auto-injection des chemins GLB depuis la convention buildGlbPath.
+// Auto-injection d'un tableau "photos" vide par défaut (à remplir manuellement
+// par variante avec des URLs absolues vers les vraies photos produit).
+//   Convention recommandée : /photos/<categorie>/<produit-id>/<variante-id>/01.jpg
 for (const produit of CATALOGUE) {
   for (const variante of produit.variantes) {
     if (!variante.fichierGLB) {
       variante.fichierGLB = buildGlbPath(produit.categorie, produit.id, variante.id)
+    }
+    if (!Array.isArray(variante.photos)) {
+      variante.photos = []
     }
   }
 }

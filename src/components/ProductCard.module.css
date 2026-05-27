@@ -94,6 +94,38 @@
   z-index: 2;
 }
 
+/* Bouton "Image réelle" en haut à gauche du preview → ouvre le carrousel. */
+.realPhotoBtn {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: rgba(10, 6, 18, 0.65);
+  border: 1px solid var(--accent-soft);
+  padding: 0.22rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 3;
+  transition: background 140ms ease, border-color 140ms ease, color 140ms ease,
+    box-shadow 160ms ease, transform 120ms ease;
+}
+.realPhotoBtn:hover,
+.realPhotoBtn:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 12px rgba(194, 82, 255, 0.55);
+  outline: none;
+}
+.realPhotoBtn:active { transform: scale(0.94); }
+
 .navBtn {
   position: absolute;
   top: 50%;
@@ -346,8 +378,14 @@
   margin-top: 0.4rem;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 0.25rem;
+}
+.prixRow {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+  min-width: 0;
 }
 .prix {
   margin: 0;
@@ -365,6 +403,9 @@
     inset 0 0 12px rgba(194, 82, 255, 0.18),
     0 0 8px rgba(194, 82, 255, 0.12);
   text-shadow: 0 0 6px rgba(194, 82, 255, 0.55);
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
 }
 .prixDetail {
   margin: 0;
@@ -374,4 +415,44 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.06em;
   padding: 0 0.15rem;
+}
+
+/* Bouton "Acheter" solo, à droite du prix. Style HUD mauve cohérent avec
+   Buy Everything mais en version compacte. */
+.buySoloBtn {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding: 0 0.7rem;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px var(--accent-soft),
+    0 0 14px rgba(194, 82, 255, 0.35);
+  transition: filter 140ms ease, box-shadow 160ms ease, transform 120ms ease;
+}
+.buySoloBtn:hover,
+.buySoloBtn:focus-visible {
+  filter: brightness(1.08);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 0 22px rgba(194, 82, 255, 0.55);
+  outline: none;
+}
+.buySoloBtn:active { transform: scale(0.97); }
+.buySoloArrow {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 0.9rem;
 }

@@ -1,0 +1,268 @@
+/* =============================================================================
+ *  RealPhotoModal — popup style HUD mauve, fond flou laissant voir la scène.
+ * ============================================================================ */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 6, 18, 0.5);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  animation: backdropFadeIn 200ms ease;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.panel {
+  position: relative;
+  width: 60vw;
+  height: 70vh;
+  max-width: 1100px;
+  max-height: 820px;
+  min-width: 320px;
+  min-height: 380px;
+  background: var(--surface-1);
+  border: 1px solid var(--accent-soft);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px var(--accent-soft),
+    0 0 60px rgba(194, 82, 255, 0.25),
+    0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: panelPop 220ms cubic-bezier(0.2, 1.1, 0.3, 1);
+}
+
+@keyframes panelPop {
+  from { transform: scale(0.94); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+/* Corner brackets HUD identiques aux cartes. */
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--accent);
+  border-style: solid;
+  border-width: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.panel::before {
+  top: 0; left: 0;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.panel::after {
+  bottom: 0; right: 0;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+/* ============================== HEADER ==================================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(194, 82, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  font-weight: 600;
+}
+
+.closeBtn {
+  background: transparent;
+  border: 1px solid rgba(194, 82, 255, 0.3);
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+  font-size: 1.35rem;
+  line-height: 1;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+}
+.closeBtn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+  background: rgba(255, 138, 138, 0.08);
+}
+
+/* ============================== STAGE ===================================== */
+
+.stage {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.05), transparent 65%),
+    radial-gradient(circle at 50% 100%, rgba(194, 82, 255, 0.08), transparent 70%),
+    #0a0610;
+  user-select: none;
+}
+
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 2px,
+    rgba(255, 255, 255, 0.05) 2px 3px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.img {
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 100ms linear;
+  transform-origin: center center;
+  user-select: none;
+  -webkit-user-drag: none;
+  z-index: 2;
+  position: relative;
+}
+
+.empty {
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 1rem 2rem;
+  z-index: 2;
+}
+
+/* ============================== NAV ARROWS ================================ */
+
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--accent-soft);
+  background: rgba(10, 6, 18, 0.55);
+  color: var(--text);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 6;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease,
+    box-shadow 160ms ease;
+}
+.navBtn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(194, 82, 255, 0.55);
+}
+.navBtn:active { transform: translateY(-50%) scale(0.94); }
+.navPrev { left: 1rem; }
+.navNext { right: 1rem; }
+
+/* ============================== FOOTER ==================================== */
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 1rem;
+  border-top: 1px solid rgba(194, 82, 255, 0.18);
+  flex-shrink: 0;
+}
+
+.zoomGroup {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(194, 82, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.zoomBtn {
+  width: 30px;
+  height: 28px;
+  background: var(--surface-input);
+  border: none;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 120ms ease, color 120ms ease;
+}
+.zoomBtn:hover:not(:disabled) {
+  background: rgba(194, 82, 255, 0.18);
+  color: var(--accent);
+}
+.zoomBtn:disabled {
+  cursor: not-allowed;
+  color: rgba(245, 234, 255, 0.25);
+}
+.zoomValue {
+  min-width: 54px;
+  padding: 0 0.5rem;
+  text-align: center;
+  font-family: var(--font-digital);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--surface-input);
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.count {
+  font-family: var(--font-digital);
+  font-size: 0.85rem;
+  color: var(--text-soft);
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 700px) {
+  .panel {
+    width: 94vw;
+    height: 82vh;
+  }
+  .navBtn { width: 38px; height: 38px; font-size: 1.3rem; }
+  .navPrev { left: 0.5rem; }
+  .navNext { right: 0.5rem; }
+}
