@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber'
 import { SLOTS } from './SLOTS.js'
 import SafeGLB from './SafeGLB.jsx'
 import { useConfigStore } from '../store/useConfigStore.js'
+import { useFocusStore } from '../store/useFocusStore.js'
 import { sizeMultiplier } from '../utils/size.js'
 
 /**
@@ -30,6 +31,7 @@ export default function EquippedItem({
 }) {
   const slotOverride = useConfigStore((s) => s.slotOverrides[slot])
   const itemScale = useConfigStore((s) => s.itemScales[produit.categorie] ?? 1)
+  const focus = useFocusStore((s) => s.focus)
   // Multiplicateur d'échelle selon la taille sélectionnée (XS<S<M<L<XL,
   // 50<52<54…). Subtil mais visible (~±5-10 %).
   const sizeMult = sizeMultiplier(produit, taille)
@@ -72,6 +74,18 @@ export default function EquippedItem({
 
   if (!slotConfig || !variante) return null
 
+  const handleClick = (e) => {
+    e.stopPropagation()
+    focus(cardId)
+  }
+  const handlePointerOver = (e) => {
+    e.stopPropagation()
+    document.body.style.cursor = 'pointer'
+  }
+  const handlePointerOut = () => {
+    document.body.style.cursor = ''
+  }
+
   return (
     <group
       ref={groupRef}
@@ -79,6 +93,10 @@ export default function EquippedItem({
       rotation={slotConfig.rotation}
       scale={progressRef.current}
       name={`slot:${slot}`}
+      userData={{ cardId }}
+      onClick={handleClick}
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
     >
       {/* fallback=null → si le .glb manque, l'emplacement reste vide.
           Plus de primitive procédurale visible sur le perso. */}

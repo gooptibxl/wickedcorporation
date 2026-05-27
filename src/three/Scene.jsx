@@ -5,6 +5,7 @@ import * as THREE from 'three'
 import Character from './Character.jsx'
 import CharacterRig from './CharacterRig.jsx'
 import Equipment from './Equipment.jsx'
+import CameraFocus from './CameraFocus.jsx'
 import styles from './Scene.module.css'
 
 /* =============================================================================
@@ -112,6 +113,8 @@ export default function Scene() {
           <Character />
           <Equipment />
         </CharacterRig>
+
+        <CameraFocus controlsRef={controlsRef} />
 
         <OrbitControls
           ref={controlsRef}
