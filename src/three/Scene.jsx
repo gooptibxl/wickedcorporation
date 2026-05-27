@@ -11,16 +11,16 @@ import styles from './Scene.module.css'
  *  ROTATION CAMÉRA (orbit autour du perso). Le perso lui-même ne tourne pas.
  * =========================================================================== */
 
-/** Horizontal : 16 positions sur 360° → 22.5° / clic (boucle naturelle). */
-const AZIMUTH_STEP = (Math.PI * 2) / 16
-/** Vertical : 16 positions sur 180° → 11.25° / clic. */
-const POLAR_STEP = Math.PI / 16
+/** Horizontal : 12 positions sur 360° → 30° / clic (boucle naturelle). */
+const AZIMUTH_STEP = (Math.PI * 2) / 12
+/** Vertical : 12 positions sur 180° → 15° / clic. */
+const POLAR_STEP = Math.PI / 12
 
 /**
  * Drag souris = PAN (translation X/Y, pas de rotation orbitale).
  * Les 4 boutons ‹ › ⌃ ⌄ font tourner LA CAMÉRA autour du perso :
- *   - ‹ ›  → azimuthal (Y mondial), 22.5° par clic, illimité (boucle 360°)
- *   - ⌃ ⌄  → polar (haut-bas), 11.25° par clic, clampé [0, 180°]
+ *   - ‹ ›  → azimuthal (Y mondial), 30° par clic, illimité (boucle 360°)
+ *   - ⌃ ⌄  → polar (haut-bas), 15° par clic, clampé [0, 180°]
  * Zoom inchangé (molette / pinch), centré sur le curseur.
  */
 export default function Scene() {
@@ -156,7 +156,7 @@ export default function Scene() {
         className={`${styles.spinBtn} ${styles.spinLeft}`}
         onClick={tournerGauche}
         aria-label="Tourner la caméra à gauche"
-        title="Tourner la caméra à gauche (22.5°)"
+        title="Tourner la caméra à gauche (30°)"
       >
         ‹
       </button>
@@ -165,7 +165,7 @@ export default function Scene() {
         className={`${styles.spinBtn} ${styles.spinRight}`}
         onClick={tournerDroite}
         aria-label="Tourner la caméra à droite"
-        title="Tourner la caméra à droite (22.5°)"
+        title="Tourner la caméra à droite (30°)"
       >
         ›
       </button>
@@ -176,7 +176,7 @@ export default function Scene() {
         className={`${styles.spinBtn} ${styles.spinUp}`}
         onClick={tournerHaut}
         aria-label="Caméra vers le haut"
-        title="Caméra vers le haut (11.25°)"
+        title="Caméra vers le haut (15°)"
       >
         ⌃
       </button>
@@ -185,7 +185,7 @@ export default function Scene() {
         className={`${styles.spinBtn} ${styles.spinDown}`}
         onClick={tournerBas}
         aria-label="Caméra vers le bas"
-        title="Caméra vers le bas (11.25°)"
+        title="Caméra vers le bas (15°)"
       >
         ⌄
       </button>
