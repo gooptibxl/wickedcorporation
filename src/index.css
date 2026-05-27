@@ -3,13 +3,34 @@
  * ============================================================================ */
 
 /* Digital-7 — afficheur 7 segments (licence freeware home use only —
-   acheter pour la prod). Le binaire doit être présent à /public/fonts/
-   digital-7-mono.ttf. Si absent, le fallback monospace prend le relais. */
+   acheter pour la prod). Les 4 variantes (regular, italic, mono, mono italic)
+   sont déposées dans /public/fonts/digital_7/. */
 @font-face {
   font-family: 'Digital-7';
-  src: url('/fonts/digital-7-mono.ttf') format('truetype');
+  src: url('/fonts/digital_7/digital-7.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Digital-7';
+  src: url('/fonts/digital_7/digital-7-italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Digital-7 Mono';
+  src: url('/fonts/digital_7/digital-7-mono.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Digital-7 Mono';
+  src: url('/fonts/digital_7/digital-7-mono-italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -39,10 +60,12 @@
   --danger:         #ff8a8a;
 
   /* ---------- Typographie ---------- */
-  /* Digital-7 PARTOUT, fallback Inter / Space Grotesk pour glyphes manquants. */
+  /* Digital-7 PARTOUT, fallback Inter / Space Grotesk pour glyphes manquants.
+     - --font-body / --font-display → Digital-7 (proportionnel, lettres)
+     - --font-digital → Digital-7 Mono (chiffres/prix, tabular-nums OK) */
   --font-body:      'Digital-7', 'Inter', system-ui, sans-serif;
   --font-display:   'Digital-7', 'Space Grotesk', 'Inter', system-ui, sans-serif;
-  --font-digital:   'Digital-7', 'Menlo', 'Consolas', monospace;
+  --font-digital:   'Digital-7 Mono', 'Digital-7', 'Menlo', 'Consolas', monospace;
 }
 
 *,
